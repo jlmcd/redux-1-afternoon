@@ -1,28 +1,38 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import "./Name.css";
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import './Name.css'
+import store, { UPDATE_NAME, UPDATE_CATEGORY } from '../../store'
 
 class Name extends Component {
   constructor(props) {
-    super(props);
+    const reduxState = store.getState()
+    super(props)
     this.state = {
-      name: '',
-      category: ''
-    };
+      name: reduxState.name,
+      category: reduxState.category
+    }
   }
   handleNameChange(nameVal) {
     this.setState({
       name: nameVal
-    });
+    })
   }
 
   handleCategoryChange(catVal) {
     this.setState({
       category: catVal
-    });
+    })
   }
   saveChanges() {
     // Send data to Redux state
+    store.dispatch({
+      type: UPDATE_NAME,
+      payload: this.state.name
+    })
+    store.dispatch({
+      type: UPDATE_CATEGORY,
+      payload: this.state.category
+    })
   }
   render() {
     return (
@@ -40,14 +50,14 @@ class Name extends Component {
             value={this.state.category}
             onChange={e => this.handleCategoryChange(e.target.value)}
           >
-            <option value={""}>----</option>
-            <option value={"Breakfast"}>Breakfast</option>
-            <option value={"Second Breakfast"}>Second Breakfast</option>
-            <option value={"Brunch"}>Brunch</option>
-            <option value={"Lunch"}>Lunch</option>
-            <option value={"Dinner"}>Dinner</option>
-            <option value={"Drinks"}>Drinks</option>
-            <option value={"Dessert"}>Dessert</option>
+            <option value={''}>----</option>
+            <option value={'Breakfast'}>Breakfast</option>
+            <option value={'Second Breakfast'}>Second Breakfast</option>
+            <option value={'Brunch'}>Brunch</option>
+            <option value={'Lunch'}>Lunch</option>
+            <option value={'Dinner'}>Dinner</option>
+            <option value={'Drinks'}>Drinks</option>
+            <option value={'Dessert'}>Dessert</option>
           </select>
         </div>
         <Link to="/add/author">
@@ -56,8 +66,8 @@ class Name extends Component {
           </button>
         </Link>
       </div>
-    );
+    )
   }
 }
 
-export default Name;
+export default Name
